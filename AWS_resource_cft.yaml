@@ -134,7 +134,7 @@ Resources:
     Properties:
       KeyName: devops_cft_keypair
 
-  SecGroupName:
+  SecGroupProd:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: Prod_devops_sg
@@ -179,7 +179,7 @@ Resources:
       ImageId: !FindInMap [ RegionMap, !Ref 'AWS::Region', AMI ]
       InstanceType: t2.micro
       Monitoring: true
-      SecurityGroupIds: !Ref SecGroupName
+      ##SecurityGroupIds: !Ref SecGroupProd
       UserData:
         Fn::Base64: |
           #!/bin/bash
