@@ -105,5 +105,5 @@ Resources:
   TestUATAttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId: !Ref DevVPC
+      VpcId: !Ref TestUatVPC
       InternetGatewayId: !Ref TestUATigw
