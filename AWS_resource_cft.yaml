@@ -179,8 +179,8 @@ Resources:
       ImageId: !FindInMap [ RegionMap, !Ref 'AWS::Region', AMI ]
       InstanceType: t2.micro
       Monitoring: true
-      #SecurityGroupIds: 
-       # - sg-011f898f72cf6251e
+      SecurityGroupIds: 
+        - sg-011f898f72cf6251e
       UserData:
         Fn::Base64: |
           #!/bin/bash
