@@ -58,7 +58,7 @@ Resources:
                         - !GetAZs
                           Ref: 'AWS::Region'
       VpcId: !Ref ProdVPC
-      CidrBlock: 172.10.1.0/24
+      CidrBlock: 172.10.0.0/16
       MapPublicIpOnLaunch: false
       Tags:
         - Key: name
