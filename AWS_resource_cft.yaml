@@ -1,0 +1,43 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "This template is for creating aws resources for devops deployment"
+
+
+Resources:
+  s3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      AccessControl: Private
+      BucketName: devops237bkt
+      ##VersioningConfiguration: Enabled
+      Tags:
+        - Key: name
+          Value: devops_bkt
+
+  ProdVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 172.10.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: name
+          Value: devops_vpc_prod  
+
+  DevVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 171.10.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: name
+          Value: devops_vpc_dev  
+
+  TestUatVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 170.10.0.0/16
+      EnableDnsSupport: true
+      Tags:
+        - Key: name
+          Value: devops_vpc_test_uat
