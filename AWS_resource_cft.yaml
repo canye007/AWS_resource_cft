@@ -175,14 +175,22 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       KeyName: !Ref Ec2keypair
-      DisableApiTermination: True
+      DisableApiTermination: true
       ImageId: !FindInMap [ RegionMap, !Ref 'AWS::Region', AMI ]
-      InstanceType: t2.small
+      InstanceType: t2.micro
       Monitoring: true
       SecurityGroupIds: !Ref SecGroupName
-      UserData: !Base64 |
-        #!/bin/bash -ex
-        # put your script here
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          sudo amazon-linux-extras install java-openjdk11 -y
+          sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+          sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+          sudo yum update -y
+          sudo yum install jenkins -y
+          sudo systemctl start jenkins
+          sudo systemctl enable jenkins
+          echo "Initial Jenkins Admin Password: $(cat /var/lib/jenkins/secrets/initialAdminPassword)"
       Tags:
         - Key: name
           Value: Jenkins_cicd          
