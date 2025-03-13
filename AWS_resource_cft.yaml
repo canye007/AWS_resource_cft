@@ -41,3 +41,30 @@ Resources:
       Tags:
         - Key: name
           Value: devops_vpc_test_uat
+
+  ProdSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select
+                        - 0
+                        - !GetAZs
+                          Ref: 'AWS::Region'
+      VpcId: !Ref ProdVPC
+      CidrBlock: 172.10.1.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: name
+          Value: ProdSubnet
+  DevSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select
+                        - 0
+                        - !GetAZs
+                          Ref: 'AWS::Region'
+      VpcId: !Ref ProdVPC
+      CidrBlock: 172.10.7.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: name
+          Value: DevSubnet        
