@@ -26,7 +26,7 @@ Resources:
   ProdVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 172.10.0.0/16
+      CidrBlock: 176.10.0.0/16
       EnableDnsSupport: true
       Tags:
         - Key: name
@@ -58,7 +58,7 @@ Resources:
                         - !GetAZs
                           Ref: 'AWS::Region'
       VpcId: !Ref ProdVPC
-      CidrBlock: 172.10.0.0/16
+      CidrBlock: 176.10.0.0/16
       MapPublicIpOnLaunch: false
       Tags:
         - Key: name
@@ -148,7 +148,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 8080
           ToPort: 8080
-          CidrIp: 172.10.1.0/24 
+          CidrIp: 176.10.1.0/24 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
@@ -161,7 +161,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 8080
           ToPort: 8080
-          CidrIp: 172.10.1.0/24 
+          CidrIp: 176.10.1.0/24 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22

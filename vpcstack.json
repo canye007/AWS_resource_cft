@@ -1,0 +1,123 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "DevServerKeyPair": {
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "ConstraintDescription": "Must be the name of an existing EC2 KeyPair."
+        }
+    },
+    "Resources": {
+        "DevVpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "172.31.0.0/16",
+                "EnableDnsSupport": "false",
+                "EnableDnsHostnames": "false",
+                "InstanceTenancy": "dedicated",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "DevStackVpc"
+                    }
+                ]
+            }
+        },
+        "DevSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "DevVpc"
+                },
+                "CidrBlock": "172.31.0.0/16",
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                }
+            }
+        },
+        "WebApplicationServerSG": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "DevVpc"
+                },
+                "GroupDescription": "Enable HTTP, HTTPS and SSH access",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "WebApplicationServer Service Group"
+                    }
+                ],
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "SecurityGroupEgress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+        "WebApplicationServer": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-f3e5aa9c",
+                "InstanceType": "t2.micro",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "WebApplicationServer"
+                    }
+                ],
+                "KeyName": {
+                    "Ref": "DevServerKeyPair"
+                },
+                "NetworkInterfaces": [
+                    {
+                        "SubnetId": {"Ref": "DevSubnet"},
+                        "AssociatePublicIpAddress": "true",
+                        "DeviceIndex": "0",
+                        "GroupSet": [{ "Ref" : "WebApplicationServerSG" }]
+                    }
+                ]
+            }
+        }
+      }
+    }
