@@ -62,8 +62,8 @@ Resources:
                         - 0
                         - !GetAZs
                           Ref: 'AWS::Region'
-      VpcId: !Ref ProdVPC
-      CidrBlock: 172.10.7.0/24
+      VpcId: !Ref DevVPC
+      CidrBlock: 171.10.7.0/24
       MapPublicIpOnLaunch: true
       Tags:
         - Key: name
@@ -75,8 +75,8 @@ Resources:
                         - 0
                         - !GetAZs
                           Ref: 'AWS::Region'
-      VpcId: !Ref ProdVPC
-      CidrBlock: 172.10.14.0/24
+      VpcId: !Ref TestUatVPC
+      CidrBlock: 170.10.14.0/24
       MapPublicIpOnLaunch: true
       Tags:
         - Key: name
@@ -107,3 +107,16 @@ Resources:
     Properties:
       VpcId: !Ref TestUatVPC
       InternetGatewayId: !Ref TestUATigw
+
+  NatPublicIP:
+    Type: AWS::EC2::EIP
+    ##DependsOn: !Ref ProdVPC
+    Properties:
+      Domain: vpc 
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    ##DependsOn: NatPublicIP
+    Properties: 
+      SubnetId: !Ref DevSubnet
+      AllocationId: !GetAtt NatPublicIP.AllocationId    
