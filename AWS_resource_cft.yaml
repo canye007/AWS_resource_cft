@@ -119,4 +119,9 @@ Resources:
     ##DependsOn: NatPublicIP
     Properties: 
       SubnetId: !Ref DevSubnet
-      AllocationId: !GetAtt NatPublicIP.AllocationId    
+      AllocationId: !GetAtt NatPublicIP.AllocationId
+
+  Ec2keypair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: devops_cft_keypair
