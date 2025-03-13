@@ -80,4 +80,30 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: name
-          Value: TestUatSubnet                
+          Value: TestUatSubnet
+
+  Devigw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: name
+          Value: Dev_igw
+
+  DevAttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref DevVPC
+      InternetGatewayId: !Ref Devigw
+
+  TestUATigw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: name
+          Value: TestUAT_igw
+
+  TestUATAttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref DevVPC
+      InternetGatewayId: !Ref TestUATigw
