@@ -64,7 +64,20 @@ Resources:
                           Ref: 'AWS::Region'
       VpcId: !Ref ProdVPC
       CidrBlock: 172.10.7.0/24
-      MapPublicIpOnLaunch: false
+      MapPublicIpOnLaunch: true
       Tags:
         - Key: name
-          Value: DevSubnet        
+          Value: DevSubnet
+  TestUatSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select
+                        - 0
+                        - !GetAZs
+                          Ref: 'AWS::Region'
+      VpcId: !Ref ProdVPC
+      CidrBlock: 172.10.14.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: name
+          Value: TestUatSubnet                
