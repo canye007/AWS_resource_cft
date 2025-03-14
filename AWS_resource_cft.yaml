@@ -63,6 +63,8 @@ Resources:
       Tags:
         - Key: name
           Value: ProdSubnet
+        - Key: name
+          value: Production  
   DevSubnet:
     Type: AWS::EC2::Subnet
     Properties:
