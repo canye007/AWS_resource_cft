@@ -1,0 +1,16 @@
+---
+AWSTemplateFormationVersion: "2010-09-10"
+
+Description: "This template is for creating aws resources for devops deployment"
+
+Parameters:
+
+Mappings:
+ 
+Conditions:
+
+Resources:
+ 
+
+Output:
+
