@@ -194,4 +194,14 @@ Resources:
           echo "Initial Jenkins Admin Password: $(cat /var/lib/jenkins/secrets/initialAdminPassword)"
       Tags:
         - Key: name
-          Value: Jenkins_cicd          
+          Value: Jenkins_cicd
+Outputs:
+  VPCID:
+    Description: Information about the value
+    Value: !Ref ProdVPC
+  InstanceID:
+    Description: The EC2 Instance ID
+    Value: !Ref Jenkinscicd
+  MainBucketNameID: 
+    Description: Name of the main bucket 
+    Value: !Ref s3Bucket   
